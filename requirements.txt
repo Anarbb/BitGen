@@ -1,0 +1,4 @@
+requests==2.24.0
+bip32utils==0.3.post4
+mnemonic==0.19
+secrets==1.0.2
