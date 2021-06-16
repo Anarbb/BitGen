@@ -8,11 +8,11 @@ from decimal import Decimal
 from multiprocessing.pool import ThreadPool as Pool
 import threading
 from Bip39Gen import Bip39Gen
-from time import sleep
 import ctypes
+from check import check_balance
 
 
-class Settings():
+class Settings:
     save_empty = "y"
     total_count = 0
     wet_count = 0
@@ -20,14 +20,16 @@ class Settings():
 
 
 def makeDir():
-    path = 'results'
+    path = "results"
     if not os.path.exists(path):
         os.makedirs(path)
 
 
 def userInput():
-    print("""Type "start" to begin or "help" for the help prompt.
-    """)
+    print(
+        """Type "start" to begin or "help" for the help prompt.
+    """
+    )
     while True:
         user_input = input("> ").lower()
         if user_input == "start":
@@ -42,9 +44,9 @@ def userInput():
 def getInternet():
     try:
         try:
-            requests.get('http://216.58.192.142')
+            requests.get("http://216.58.192.142")
         except requests.ConnectTimeout:
-            requests.get('http://1.1.1.1')
+            requests.get("http://1.1.1.1")
         return True
     except requests.ConnectionError:
         return False
@@ -53,19 +55,21 @@ def getInternet():
 lock = threading.Lock()
 
 if getInternet() == True:
-    dictionary = requests.get(
-        'https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt').text.strip().split('\n')
+    dictionary = (
+        requests.get(
+            "https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt"
+        )
+        .text.strip()
+        .split("\n")
+    )
 else:
     pass
 
 
 def getBalance(addr):
     try:
-        response = requests.get(
-            f'https://api.smartbit.com.au/v1/blockchain/address/{addr}')
-        return (
-            Decimal(response.json()["address"]["total"]["balance"])
-        )
+        response = requests.get(f"https://blockchain.info/address/%s?format=json{addr}")
+        return Decimal(response.json())
     except:
         pass
 
@@ -73,8 +77,7 @@ def getBalance(addr):
 def generateSeed():
     seed = ""
     for i in range(12):
-        seed += random.choice(dictionary) if i == 0 else ' ' + \
-            random.choice(dictionary)
+        seed += random.choice(dictionary) if i == 0 else " " + random.choice(dictionary)
     return seed
 
 
@@ -83,13 +86,13 @@ def bip39(mnemonic_words):
     seed = mobj.to_seed(mnemonic_words)
 
     bip32_root_key_obj = bip32utils.BIP32Key.fromEntropy(seed)
-    bip32_child_key_obj = bip32_root_key_obj.ChildKey(
-        44 + bip32utils.BIP32_HARDEN
-    ).ChildKey(
-        0 + bip32utils.BIP32_HARDEN
-    ).ChildKey(
-        0 + bip32utils.BIP32_HARDEN
-    ).ChildKey(0).ChildKey(0)
+    bip32_child_key_obj = (
+        bip32_root_key_obj.ChildKey(44 + bip32utils.BIP32_HARDEN)
+        .ChildKey(0 + bip32utils.BIP32_HARDEN)
+        .ChildKey(0 + bip32utils.BIP32_HARDEN)
+        .ChildKey(0)
+        .ChildKey(0)
+    )
 
     return bip32_child_key_obj.Address()
 
@@ -98,34 +101,40 @@ def check():
     while True:
         mnemonic_words = Bip39Gen(dictionary).mnemonic
         addy = bip39(mnemonic_words)
-        balance = getBalance(addy)
+        balance = check_balance(addy)
         with lock:
             print(
-                f'Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}')
+                f"Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}"
+            )
             Settings.total_count += 1
             if Settings.save_empty == "y":
                 ctypes.windll.kernel32.SetConsoleTitleW(
-                    f"Empty: {Settings.dry_count} - Hits: {Settings.wet_count} - Total checks: {Settings.total_count}")
+                    f"Empty: {Settings.dry_count} - Hits: {Settings.wet_count} - Total checks: {Settings.total_count}"
+                )
             else:
                 ctypes.windll.kernel32.SetConsoleTitleW(
-                    f"Hits: {Settings.wet_count} - Total checks: {Settings.total_count}")
+                    f"Hits: {Settings.wet_count} - Total checks: {Settings.total_count}"
+                )
         if balance > 0:
-            with open('results/wet.txt', 'a') as w:
+            with open("results/wet.txt", "a") as w:
                 w.write(
-                    f'Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}\n')
+                    f"Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}\n"
+                )
                 Settings.wet_count += 1
         else:
             if Settings.save_empty == "n":
                 pass
             else:
-                with open('results/dry.txt', 'a') as w:
+                with open("results/dry.txt", "a") as w:
                     w.write(
-                        f'Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}\n')
+                        f"Address: {addy} | Balance: {balance} | Mnemonic phrase: {mnemonic_words}\n"
+                    )
                     Settings.dry_count += 1
 
 
 def helpText():
-    print("""
+    print(
+        """
 This program was made by Anarb and it generates Bitcoin by searching multiple possible
 wallet combinations until it's finds one with over 0 BTC and saves it into
 a file called "wet.txt" in the results folder.
@@ -140,7 +149,8 @@ start - Starts the program
 =========================================================================================
 
 More commands will be added soon plus other cryptocurrencies.
-        """)
+        """
+    )
 
 
 def start():
@@ -164,7 +174,7 @@ def start():
         userInput()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     makeDir()
     getInternet()
     if getInternet() == False:
