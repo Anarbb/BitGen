@@ -2,7 +2,7 @@
 
 ## Note
 
-> I know about the problem of Balance: None it can't be fixed since all APIs are rate limited and you can't spam them if you know any good APis that aren't send em to my email
+> I know about the problem of Balance: None it can't be fixed since all APIs are rate limited and you can't spam them if you know any good APis that aren't send em to my email for now it can do 666 max at one time then you have to restart it
 
 ## Development setup
 
