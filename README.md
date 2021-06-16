@@ -1,10 +1,8 @@
 # BitGen
-> A Bitcoin scrapper
 
+## Note
 
-This is a simple Bitcoin wallet scrapper it's checks random wallets that it generates against an API and saves ones that have Bitcoin in them in a file for you to 
-use.
-
+> I know about the problem of Balance: None it can't be fixed since all APIs are rate limited and you can't spam them if you know any good APis that aren't send em to my email
 
 ## Development setup
 
