@@ -17,7 +17,7 @@ python3 main.py -h
 ## Release History
 
 - 0.1
-  - Fixed the API and spaghetti code problems
+  - Fixed the API and spaghetti code problems, also now it gives you the Private key instead of mnemonic key, more accurate that way
 - 0.0.1
   - initial release
 
