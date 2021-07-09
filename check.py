@@ -1,6 +1,6 @@
 import re
 from time import sleep
-
+from datetime import datetime
 from urllib.request import urlopen
 
 
@@ -14,8 +14,6 @@ def check_balance(address):
         SATOSHIS_PER_BTC = 1e8
 
         check_address = address
-
-        # Read info from Blockchain about the Address
         reading_state = 1
         while reading_state:
             try:
@@ -46,3 +44,19 @@ def check_balance(address):
                 return "0"
     except:
         pass
+
+
+def last_seen(address):
+    try:
+        address = address
+        htmlfile = urlopen(
+            "https://blockchain.info/q/addressfirstseen/%s?format=json" % address,
+            timeout=10,
+        )
+        htmltext = htmlfile.read().decode("utf-8")
+        ts = int(htmltext)
+        if ts == 0:
+            return 0
+        return str(datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S"))
+    except:
+        return None

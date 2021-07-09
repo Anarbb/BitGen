@@ -2,3 +2,4 @@ results
 env
 __pycache__
 .vscode
+test.py
