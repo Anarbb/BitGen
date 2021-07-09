@@ -38,11 +38,7 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-"""
-print(args.threads)
-if args.verbose:
-    print("verbosity turned on")
-"""
+
 lock = threading.Lock()
 
 

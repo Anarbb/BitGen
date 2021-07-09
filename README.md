@@ -11,7 +11,7 @@ pip install -r requirments.txt
 ```
 
 ```sh
-python3 main.py
+python3 main.py -h
 ```
 
 ## Release History
