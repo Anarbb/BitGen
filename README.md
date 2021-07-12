@@ -2,7 +2,7 @@
 
 ## Note
 
-> Fixed and recoded the whole spaghetti code that I made, now it better? idk enjoy.
+> Fixed and recoded the whole spaghetti code that I made, now it better?
 
 ## Development setup
 
