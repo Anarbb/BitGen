@@ -58,9 +58,9 @@ def makeDir():
 def getInternet():
     try:
         try:
-            requests.get("http://216.58.192.142")
-        except requests.ConnectTimeout:
             requests.get("http://1.1.1.1")
+        except requests.ConnectTimeout:
+            requests.get("https://1.0.0.1/")
         return True
     except requests.ConnectionError:
         return False
