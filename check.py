@@ -90,6 +90,3 @@ def last_seen_bc(address):
         return str(datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S"))
     except:
         return None
-
-# With proxy
-print(check_balance_btc("1assTGVhuCnrix5LvhL2GXEkSS3fS2XBT"))
