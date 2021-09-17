@@ -98,6 +98,8 @@ def main():
 
 
 if __name__ == "__main__":
+    if not getInternet():
+        print(bcolors.RED + "No internet connection")
     makeDir()
     threads = args.threads
     pool = Pool(threads)
