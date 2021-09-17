@@ -60,11 +60,7 @@ def getInternet():
         try:
             requests.get("http://1.1.1.1")
         except requests.ConnectTimeout:
-<<<<<<< HEAD
-            requests.get("http://216.58.213.14")
-=======
-            requests.get("https://1.0.0.1/")
->>>>>>> b4fd73aaaec9d081ab6e4e4157db7b610d66e5bb
+            requests.get("http://1.0.0.1")
         return True
     except requests.ConnectionError:
         return False
