@@ -3,3 +3,6 @@ env
 __pycache__
 .vscode
 test.py
+output
+btc.ico
+customwallet.py

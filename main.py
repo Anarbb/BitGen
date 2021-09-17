@@ -1,5 +1,5 @@
 from btcaddr import Wallet
-from check import check_balance, last_seen
+from check import check_balance_bc, last_seen_bc
 import threading
 from multiprocessing.pool import ThreadPool as Pool
 import argparse
@@ -58,9 +58,9 @@ def makeDir():
 def getInternet():
     try:
         try:
-            requests.get("http://216.58.192.142")
-        except requests.ConnectTimeout:
             requests.get("http://1.1.1.1")
+        except requests.ConnectTimeout:
+            requests.get("http://216.58.213.14")
         return True
     except requests.ConnectionError:
         return False
@@ -72,9 +72,9 @@ def main():
             wallet = Wallet()
             prv = wallet.key.__dict__["mainnet"].__dict__["wif"]
             addr = wallet.address.__dict__["mainnet"].__dict__["pubaddr1"]
-            balance = int(check_balance(addr))
+            balance = int(check_balance_bc(addr))
             if balance == 0:
-                if last_seen(addr) == 0:
+                if last_seen_bc(addr) == 0:
                     if args.savedry:
                         with open("results/dry.txt", "a") as w:
                             w.write(
@@ -84,22 +84,22 @@ def main():
                 else:
                     with open("results/moist.txt", "a") as w:
                         w.write(
-                            f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen(addr)}\n"
+                            f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                         )
                     print(
-                        f"{bcolors.YELLOW}{last_seen(addr)} : {balance} : {prv} : {addr}"
+                        f"{bcolors.YELLOW}{last_seen_bc(addr)} : {balance} : {prv} : {addr}"
                     )
             else:
                 with open("results/wet.txt", "a") as w:
                     w.write(
-                        f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen(addr)}\n"
+                        f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                     )
-                print(f"{last_seen(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
+                print(f"{last_seen_bc(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
 
 
 if __name__ == "__main__":
     if not getInternet():
-        print(bcolors.RED + "no internet connection")
+        print(bcolors.RED + "No internet connection")
     makeDir()
     threads = args.threads
     pool = Pool(threads)
