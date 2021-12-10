@@ -93,7 +93,7 @@ def main():
                     )
                     if args.discord:
                         webhook = DiscordWebhook(url=args.discord, rate_limit_retry=True, content=f'@everyone Address: {addr} | Balance: {balance} | Private key: {prv}')
-                    response = webhook.execute()
+                        response = webhook.execute()
                 print(f"{last_seen_bc(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
 
 
