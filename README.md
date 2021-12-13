@@ -1,5 +1,5 @@
 # BitGen
-
+![Repo views](https://gpvc.arturio.dev/anarbb)
 ## Note
 
 > Fixed and recoded the whole spaghetti code that I made, now it better?
