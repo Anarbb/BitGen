@@ -1,8 +1,9 @@
 # BitGen
 ![Repo views](https://gpvc.arturio.dev/anarbb)
+
 ## Note
 
-> Fixed and recoded the whole spaghetti code that I made, now it better?
+> Donate XMR: 49y6aGD4xSg7gDqkkMFJCcgHVmLCYdn4dGybkc49zWPqDYEipk1sdQrCGAmS6uVSnzQiPedfpfREd8Fcc6PFpTE3DN81BFs
 
 ## Development setup
 
