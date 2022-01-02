@@ -62,7 +62,7 @@ def makeDir():
 
 def main():
     with lock:
-        while 1:
+        while True:
             wallet = Wallet()
             prv = wallet.key.__dict__["mainnet"].__dict__["wif"]
             addr = wallet.address.__dict__["mainnet"].__dict__["pubaddr1"]
@@ -74,10 +74,7 @@ def main():
                             w.write(
                                 f"Address: {addr} | Balance: {balance} | Private key: {prv}\n"
                             )
-                    
                     print(f"{bcolors.RED}{addr} : {prv} : {balance} BTC")
-                    
-
                 else:
                     with open("results/moist.txt", "a") as w:
                         w.write(
@@ -92,9 +89,13 @@ def main():
                         f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                     )
                     if args.discord:
-                        webhook = DiscordWebhook(url=args.discord, rate_limit_retry=True, content=f'@everyone Address: {addr} | Balance: {balance} | Private key: {prv}')
+                        webhook = DiscordWebhook(url=args.discord,
+                                                 rate_limit_retry=True,
+                                                 content=f'@everyone Address: {addr} | '
+                                                         f'Balance: {balance} | '
+                                                         f'Private key: {prv}')
                         response = webhook.execute()
-                print(f"{last_seen_bc(addr)} {bcolors.OK} : {balance} : {prv} : {addr}")
+                print(f"{last_seen_bc(addr)} {bcolors.GREEN} : {balance} : {prv} : {addr}")
 
 
 if __name__ == "__main__":
