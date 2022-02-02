@@ -26,7 +26,7 @@ python3 main.py -h
 
 ## Meta
 
-Anas Arbaoui – [@Anarbbb](https://twitter.com/Anarbbb) – anarbaoui@gmail.com
+Anas Arbaoui – [@Anarbbb](https://twitter.com/anasdonis) – anas@arbaoui.me
 
 Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 
