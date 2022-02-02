@@ -18,7 +18,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-s",
-    "--savedry",
+    "--save_dry",
     help="save empty wallets",
     action="store_true",
     default=False,
@@ -30,7 +30,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--proxy_auth",
-    help="proxy credantials (user:pass) (coming soon)",
+    help="proxy credentials (user:pass) (coming soon)",
 )
 parser.add_argument(
     "-v",
@@ -55,7 +55,7 @@ class bcolors:
     RESET = "\033[0m"  # RESET COLOR
 
 
-def makeDir():
+def make_dir():
     path = "results"
     if not os.path.exists(path):
         os.makedirs(path)
@@ -70,7 +70,7 @@ def main():
             balance = int(check_balance_bc(addr))
             if balance == 0:
                 if last_seen_bc(addr) == 0:
-                    if args.savedry:
+                    if args.save_dry:
                         with open("results/dry.txt", "a") as w:
                             w.write(
                                 f"Address: {addr} | Balance: {balance} | Private key: {prv}\n"
@@ -98,7 +98,7 @@ def main():
 
 
 if __name__ == "__main__":
-    makeDir()
+    make_dir()
     threads = args.threads
     for _ in range(threads):
         th = threading.Thread(target=main, args=())
