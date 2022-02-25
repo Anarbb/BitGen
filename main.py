@@ -1,11 +1,12 @@
 from btcaddr import Wallet
 from check import check_balance_bc, last_seen_bc
 import threading
-from multiprocessing.pool import ThreadPool as Pool
 from discord_webhook import DiscordWebhook
 import argparse
-import requests
 import os
+from colorama import init
+
+init()
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -101,8 +102,6 @@ def main():
 if __name__ == "__main__":
     makeDir()
     threads = args.threads
-    pool = Pool(threads)
     for _ in range(threads):
-        pool.apply_async(main, ())
-    pool.close()
-    pool.join()
+        th = threading.Thread(target=main, args=())
+        th.start()

@@ -1,17 +1,16 @@
 # BitGen
-![Repo views](https://gpvc.arturio.dev/anarbb)
+<p align='center'><img src='https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FAnarbb%2FBitGen&count_bg=%23000000&title_bg=%23FF0000&icon=python.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false'></p>
 
 ## Donate
 
 - XMR: 49y6aGD4xSg7gDqkkMFJCcgHVmLCYdn4dGybkc49zWPqDYEipk1sdQrCGAmS6uVSnzQiPedfpfREd8Fcc6PFpTE3DN81BFs
 - BTC: 1assTGVhuCnrix5LvhL2GXEkSS3fS2XBT
-- ETH: 0x9B31D0437bfC7c764EF880D2B61d8A43f58164F7
-- Shiba INU: 0x9B31D0437bfC7c764EF880D2B61d8A43f58164F7
+- ETH: 0x872187EECC9523af2A9BcA6B1e9b95B516c88f5e
 
 ## Development setup
 
 ```sh
-pip install -r requirments.txt
+pip install -r requirements.txt
 ```
 
 ```sh
@@ -27,7 +26,7 @@ python3 main.py -h
 
 ## Meta
 
-Anas Arbaoui – [@Anarbbb](https://twitter.com/Anarbbb) – anarbaoui@gmail.com
+Anas Arbaoui – [@Anarbbb](https://twitter.com/anasdonis) – anas@arbaoui.me
 
 Distributed under the GPL-3.0 license. See `LICENSE` for more information.
 
