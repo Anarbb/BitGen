@@ -34,7 +34,7 @@ class Address:
         def __init__(self, instance):
             self.instance = instance
 
-        def generate_publicaddress1(self):
+        def generate_public_address1(self):
             self.pubaddr1 = self.instance._generate_publicaddress1(
                 Address.MainNet.PREFIX_A, Address.MainNet.PREFIX_B
             )
@@ -113,7 +113,7 @@ class Address:
     def generate(self) -> {}:
         if self.key.digest is None:
             self.key.generate()
-        self.mainnet.generate_publicaddress1()
+        self.mainnet.generate_public_address1()
         self.mainnet.generate_publicaddress1_compressed()
         self.mainnet.generate_publicaddress3()
         self.mainnet.generate_publicaddress_bc1_P2WPKH()

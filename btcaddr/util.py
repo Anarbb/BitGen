@@ -12,7 +12,7 @@ def sha256(v):
     return hashlib.sha256(v)
 
 
-def doublehash256(v):
+def double_hash256(v):
     return sha256(sha256(v).digest())
 
 
@@ -33,4 +33,4 @@ def ecdsa_secp256k1(digest):
 
 def checksum(v):
     checksum_size = 4
-    return doublehash256(v).digest()[:checksum_size]
+    return double_hash256(v).digest()[:checksum_size]
