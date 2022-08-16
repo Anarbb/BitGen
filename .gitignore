@@ -1,5 +1,6 @@
 results
 env
+venv
 __pycache__
 .vscode
 test.py
