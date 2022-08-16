@@ -21,7 +21,7 @@ def hash160(v):
 
 
 def ripemd(v):
-    r = hashlib.new('ripemd160')
+    r = hashlib.new("ripemd160")
     r.update(v)
     return r
 

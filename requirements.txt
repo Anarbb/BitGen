@@ -8,3 +8,4 @@ six==1.16.0
 urllib3==1.26.6
 discord-webhook
 colorama
+black

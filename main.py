@@ -38,11 +38,7 @@ parser.add_argument(
     help="increases output verbosity",
     action="store_true",
 )
-parser.add_argument(
-    "-d",
-    "--discord",
-    help="send a discord notification."
-)
+parser.add_argument("-d", "--discord", help="send a discord notification.")
 
 args = parser.parse_args()
 lock = threading.Lock()
@@ -92,9 +88,15 @@ def main():
                         f"Address: {addr} | Balance: {balance} | Private key: {prv} | Last seen: {last_seen_bc(addr)}\n"
                     )
                     if args.discord:
-                        webhook = DiscordWebhook(url=args.discord, rate_limit_retry=True, content=f'@everyone Address: {addr} | Balance: {balance} | Private key: {prv}')
+                        webhook = DiscordWebhook(
+                            url=args.discord,
+                            rate_limit_retry=True,
+                            content=f"@everyone Address: {addr} | Balance: {balance} | Private key: {prv}",
+                        )
                         response = webhook.execute()
-                print(f"{last_seen_bc(addr)} {bcolors.GREEN} : {balance} : {prv} : {addr}")
+                print(
+                    f"{last_seen_bc(addr)} {bcolors.GREEN} : {balance} : {prv} : {addr}"
+                )
 
 
 if __name__ == "__main__":

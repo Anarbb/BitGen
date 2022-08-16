@@ -45,6 +45,8 @@ def check_balance_bc(address):
                 return 0
     except:
         pass
+
+
 def check_balance_btc(address):
     # get json data from https://chain.api.btc.com/v3/address/1assTGVhuCnrix5LvhL2GXEkSS3fS2XBT and parse it
     # to get the balance
@@ -69,14 +71,15 @@ def check_balance_btc(address):
 
 
 def last_seen_bc(address):
-    
+
     try:
         address = address
         reading_state = 1
         while reading_state:
             try:
                 htmlfile = urlopen(
-                    "https://blockchain.info/q/addressfirstseen/%s?format=json" % address,
+                    "https://blockchain.info/q/addressfirstseen/%s?format=json"
+                    % address,
                     timeout=10,
                 )
                 htmltext = htmlfile.read().decode("utf-8")
