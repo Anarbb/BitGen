@@ -56,7 +56,7 @@ def check_balance_btc(address):
         while reading_state:
             try:
                 htmlfile = urlopen(
-                    "https://chain.api.btc.com/v3/address/%s?format=json" % address,
+                    f"https://chain.api.btc.com/v3/address/{address}?format=json",
                     timeout=10,
                 )
                 htmltext = htmlfile.read().decode("utf-8")
@@ -78,8 +78,7 @@ def last_seen_bc(address):
         while reading_state:
             try:
                 htmlfile = urlopen(
-                    "https://blockchain.info/q/addressfirstseen/%s?format=json"
-                    % address,
+                    f"https://blockchain.info/q/addressfirstseen/{address}?format=json",
                     timeout=10,
                 )
                 htmltext = htmlfile.read().decode("utf-8")
