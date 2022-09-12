@@ -1,94 +1,60 @@
-import re
 from time import sleep
-from datetime import datetime
-from urllib.request import urlopen
+import requests
+import json
+from btcaddr import Wallet
+from time import sleep
+from fake_user_agent import user_agent
 
-# No proxy
-def check_balance_bc(address):
-    try:
-        blockchain_tags_json = [
-            "total_received",
-            "final_balance",
-        ]
+def generate_addresses(count):
+	addresses = {}
+	for i in range(count):
+		wallet = Wallet()
+		pub = wallet.address.__dict__["mainnet"].__dict__["pubaddr1"]
+		prv = wallet.key.__dict__["mainnet"].__dict__["wif"]
+		addresses[pub] = prv
+	return addresses
 
-        SATOSHIS_PER_BTC = 1e8
+def check_balance_btc(data=generate_addresses(100)):
+	try:
+		addresses = "|".join(data.keys())
+		headers = {
+			"User-Agent": user_agent()
+		}
+		url = f"https://blockchain.info/multiaddr?active={addresses}"
+		response = requests.get(url, headers=headers).json()
+		sleep(0.5)
+		extract = []
+		for address in response["addresses"]:
+			# add all data into a list
+			extract.append({
+				"address": address["address"],
+				"balance": address["final_balance"],
+				"private": data[address["address"]]
+			})
+		return extract
+	except:
+		pass
 
-        check_address = address
-        reading_state = 1
-        # keeps reading till OK
-        while reading_state:
-            try:
-                htmlfile = urlopen(
-                    "https://blockchain.info/address/%s?format=json" % check_address,
-                    timeout=10,
-                )
-                htmltext = htmlfile.read().decode("utf-8")
-                reading_state = 0
-            except:
-                reading_state += 1
-                sleep(60 * reading_state)
+"""def last_seen_bc(address):
 
-        blockchain_info_array = []
-        tag = ""
-        try:
-            for tag in blockchain_tags_json:
-                blockchain_info_array.append(
-                    float(re.search(r'%s":(\d+),' % tag, htmltext).group(1))
-                )
-        except:
-            pass
-        for i, btc_tokens in enumerate(blockchain_info_array):
-
-            if btc_tokens > 0.0:
-                return btc_tokens / SATOSHIS_PER_BTC
-            else:
-                return 0
-    except:
-        pass
-
-
-def check_balance_btc(address):
-    # get json data from https://chain.api.btc.com/v3/address/1assTGVhuCnrix5LvhL2GXEkSS3fS2XBT and parse it
-    # to get the balance
-    try:
-        address = address
-        reading_state = 1
-        while reading_state:
-            try:
-                htmlfile = urlopen(
-                    f"https://chain.api.btc.com/v3/address/{address}?format=json",
-                    timeout=10,
-                )
-                htmltext = htmlfile.read().decode("utf-8")
-                reading_state = 0
-            except:
-                reading_state += 1
-                sleep(60 * reading_state)
-        balance = float(re.search(r'"balance":(\d+\.\d+),', htmltext).group(1))
-        return balance
-    except:
-        return None
-
-
-def last_seen_bc(address):
-
-    try:
-        address = address
-        reading_state = 1
-        while reading_state:
-            try:
-                htmlfile = urlopen(
-                    f"https://blockchain.info/q/addressfirstseen/{address}?format=json",
-                    timeout=10,
-                )
-                htmltext = htmlfile.read().decode("utf-8")
-                reading_state = 0
-            except:
-                reading_state += 1
-                sleep(60 * reading_state)
-        ts = int(htmltext)
-        if ts == 0:
-            return 0
-        return str(datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S"))
-    except:
-        return None
+	try:
+		address = address
+		reading_state = 1
+		while reading_state:
+			try:
+				htmlfile = urlopen(
+					f"https://blockchain.info/q/addressfirstseen/{address}?format=json",
+					timeout=10,
+				)
+				htmltext = htmlfile.read().decode("utf-8")
+				reading_state = 0
+			except:
+				reading_state += 1
+				sleep(60 * reading_state)
+		ts = int(htmltext)
+		if ts == 0:
+			return 0
+		return str(datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d %H:%M:%S"))
+	except:
+		return None
+"""

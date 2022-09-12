@@ -19,6 +19,11 @@ python3 main.py -h
 
 ## Release History
 
+- 0.2
+  - Optimized the code it now check 6000 addresses per second
+  - Still need to implement offline mode
+  - Still need to implement proxy/vpn support so make sure to run this with a vpn enabled or an auto switch proxy app
+  
 - 0.1
   - Fixed the API and spaghetti code problems, also now it gives you the Private key instead of mnemonic key, more accurate that way
 - 0.0.1
