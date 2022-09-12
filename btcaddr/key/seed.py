@@ -10,7 +10,6 @@ from random import randrange
 
 
 class Seed:
-
     def __init__(self, entropy=None):
         self.entropy = entropy
         if self.entropy is None:
@@ -26,9 +25,11 @@ class Seed:
     @staticmethod
     def random():
         # from bitcoin project
-        return str(os.urandom(32).hex()) \
-               + str(randrange(2 ** 256)) \
-               + str(int(time.time() * 1000000))
+        return (
+            str(os.urandom(32).hex())
+            + str(randrange(2**256))
+            + str(int(time.time() * 1000000))
+        )
 
     def __str__(self):
         return self.entropy
