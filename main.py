@@ -1,4 +1,4 @@
-from check import check_balance_btc
+from check import check_balance_btc, check_proxy_list
 import threading
 from discord_webhook import DiscordWebhook
 import argparse
@@ -12,21 +12,28 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
 	"-t",
 	"--threads",
-	help="amount of threads (default: 50)",
+	help="Amount of threads (default: 50)",
 	type=int,
 	default=50,
 )
 parser.add_argument(
 	"-s",
 	"--savedry",
-	help="save empty wallets",
+	help="Save empty wallets",
+	action="store_true",
+	default=False,
+)
+parser.add_argument(
+	"-dp",
+	"--disableprint",
+	help="Disable printing of wallets (Printing in python greatly slows down the script. If you do not need wallets without balance to be printed to the console, then it is better to disable printing to increase performance)",
 	action="store_true",
 	default=False,
 )
 parser.add_argument(
 	"-v",
 	"--verbose",
-	help="increases output verbosity",
+	help="Increases output verbosity",
 	action="store_true",
 )
 parser.add_argument("-d", "--discord", help="send a discord notification.")
@@ -35,12 +42,18 @@ parser.add_argument(
     "--telegram", 
     nargs=2,
     metavar=('botToken', 'chatId'),
-    help="send a telegram nostification. -tg <botToken> <chatId>",
+    help="Send a telegram nostification. -tg <botToken> <chatId>",
 )
+parser.add_argument(
+	"-p", 
+    "--proxy",
+    help="Use proxy. -p <ip:port> or <user:pass@ip:port>",
+)
+parser.add_argument("-cp", "--checkProxy", help="Check proxy list")
 
 args = parser.parse_args()
 lock = threading.Lock()
-
+proxy = args.proxy
 
 class bcolors:
 	GREEN = "\033[92m"  # GREEN
@@ -59,7 +72,7 @@ def main():
 	with lock:
 		while True:
 			try:
-				wallets = check_balance_btc()
+				wallets = check_balance_btc(proxy=proxy)
 				for wallet in wallets:
 					if wallet["balance"] > 0:
 						print(
@@ -91,7 +104,7 @@ def main():
 								f"{bcolors.RED}[-] {wallet['address']} : {float(wallet['balance'])/1e8} BTC : {wallet['private']}{bcolors.RESET}",
 								flush=True,
 							)
-						else:
+						elif(args.disableprint == False):
 							print(
 								f"{bcolors.RED}[-] {wallet['address']} : {float(wallet['balance'])/1e8} BTC : {wallet['private']}{bcolors.RESET}",
 								end="\r",
@@ -100,11 +113,13 @@ def main():
 						sleep(0.01)
 			except (TypeError, AttributeError):
 				print("You are rate-limited please switch to a vpn/proxy or you dont have connection")
-				pass
+				exit()
 
 
 if __name__ == "__main__":
 	makeDir()
+	if args.checkProxy:
+		check_proxy_list(args.checkProxy)
 	threads = args.threads
 	for _ in range(threads):
 		th = threading.Thread(target=main, args=())

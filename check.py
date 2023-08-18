@@ -1,5 +1,6 @@
 from time import sleep
 import requests
+import urllib
 import json
 from btcaddr import Wallet
 from time import sleep
@@ -14,14 +15,21 @@ def generate_addresses(count):
 		addresses[pub] = prv
 	return addresses
 
-def check_balance_btc(data=generate_addresses(100)):
+def check_balance_btc(data=generate_addresses(100), proxy=""):
 	try:
 		addresses = "|".join(data.keys())
 		headers = {
 			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Firefox/116.0"
 		}
 		url = f"https://blockchain.info/multiaddr?active={addresses}"
-		response = requests.get(url, headers=headers).json()
+		if(proxy != ""):
+			prox = {
+				"http": f"http://{proxy}/",
+				"https": f"http://{proxy}/"
+			}
+			response = requests.get(url, headers=headers, proxies=prox).json()
+		else:
+			response = requests.get(url, headers=headers).json()
 		sleep(0.5)
 		extract = []
 		for address in response["addresses"]:
@@ -34,6 +42,28 @@ def check_balance_btc(data=generate_addresses(100)):
 		return extract
 	except:
 		pass
+
+def check_proxy_list(proxy_list_path):
+	print("Checking proxy list...")
+	proxy_list = open(proxy_list_path, 'r')
+	proxies = proxy_list.readlines()
+	for proxy in proxies:
+		proxy = proxy.replace('\n','')
+		prox = {
+			"http": f"http://{proxy}/",
+			"https": f"http://{proxy}/"
+		}
+		try:
+			response = requests.get("http://ifconfig.me/ip", proxies=prox, timeout=5)
+			assert response.text in proxy
+		except:
+			pass
+		else:
+			valid = open('validProxy.txt', 'a')
+			valid.write(proxy + "\n")
+			valid.close()
+			print(f"\033[92mProxy {proxy} valid")
+	exit()
 
 """def last_seen_bc(address):
 
