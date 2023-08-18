@@ -18,7 +18,7 @@ def check_balance_btc(data=generate_addresses(100)):
 	try:
 		addresses = "|".join(data.keys())
 		headers = {
-			"User-Agent": user_agent()
+			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Firefox/116.0"
 		}
 		url = f"https://blockchain.info/multiaddr?active={addresses}"
 		response = requests.get(url, headers=headers).json()
