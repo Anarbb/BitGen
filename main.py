@@ -2,6 +2,7 @@ from check import check_balance_btc
 import threading
 from discord_webhook import DiscordWebhook
 import argparse
+import requests
 import os
 from colorama import init
 from time import sleep
@@ -29,6 +30,13 @@ parser.add_argument(
 	action="store_true",
 )
 parser.add_argument("-d", "--discord", help="send a discord notification.")
+parser.add_argument(
+	"-tg", 
+    "--telegram", 
+    nargs=2,
+    metavar=('botToken', 'chatId'),
+    help="send a telegram nostification. -tg <botToken> <chatId>",
+)
 
 args = parser.parse_args()
 lock = threading.Lock()
@@ -63,6 +71,9 @@ def main():
 							f.write(
 								f"{wallet['address']} : {float(wallet['balance'])/1e8} BTC : {wallet['private']}\n"
 							)
+						if args.telegram:
+							text_to_send = f"Found wallet with balance:\nBalance: `{wallet['balance']}`\nAddress: `{wallet['address']}`\nPrivate Key: `{wallet['private']}`"
+							requests.get(f"https://api.telegram.org/bot{args.telegram[0]}/sendMessage?chat_id={args.telegram[1]}&text={text_to_send}&parse_mode=MarkDown")
 						if args.discord:
 							webhook = DiscordWebhook(
 								url=args.discord,
@@ -89,6 +100,7 @@ def main():
 						sleep(0.01)
 			except (TypeError, AttributeError):
 				print("You are rate-limited please switch to a vpn/proxy or you dont have connection")
+				exit()
 				pass
 
 
