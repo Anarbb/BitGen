@@ -99,6 +99,7 @@ def main():
 							)
 						sleep(0.01)
 			except (TypeError, AttributeError):
+				print("You are rate-limited please switch to a vpn/proxy or you dont have connection")
 				pass
 
 
