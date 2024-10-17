@@ -4,8 +4,8 @@
 ## Donate
 
 
-- BTC: 1assTGVhuCnrix5LvhL2GXEkSS3fS2XBT
-- ETH: 0x872187EECC9523af2A9BcA6B1e9b95B516c88f5e
+- BTC: 1ANASsYEjgcKtZYjesRZGofJxvF3CqUVnA
+- ETH: 0x67bb91e88681c388895d38ba4c9c752bad6245f2
 
 ## Development setup
 
